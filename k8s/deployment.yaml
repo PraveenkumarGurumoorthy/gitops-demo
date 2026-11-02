@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gitops-demo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: gitops-demo
+
+  template:
+    metadata:
+      labels:
+        app: gitops-demo
+
+    spec:
+      containers:
+        - name: flask-app
+          image: ghcr.io/praveenkumargurumoorthy/gitops-demo:sha-f0ae82d
+
+          ports:
+            - containerPort: 5000
+
+          envFrom:
+            - configMapRef:
+                name: gitops-demo-config
