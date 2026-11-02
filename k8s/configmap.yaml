@@ -7,3 +7,4 @@ metadata:
 data:
   APP_ENV: "kubernetes"
   APP_VERSION: "1.0.0"
+  GITOPS_TEST: "stage-8-automated-sync"
