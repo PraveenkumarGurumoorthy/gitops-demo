@@ -61,8 +61,6 @@ jobs:
           IMAGE_NAME: ghcr.io/${{ github.repository }}
           IMAGE_TAG: ${{ steps.meta.outputs.version }}
         run: |
-          export IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
-
           python3 - <<'PY'
           import os
           import re
@@ -71,8 +69,10 @@ jobs:
           path = Path("k8s/deployment.yaml")
           content = path.read_text(encoding="utf-8")
 
-          image_name = re.escape(os.environ["IMAGE_NAME"])
-          new_image = os.environ["IMAGE"]
+          image_name_value = os.environ["IMAGE_NAME"].lower()
+          image_name = re.escape(image_name_value)
+
+          new_image = f"{image_name_value}:{os.environ['IMAGE_TAG']}"
 
           pattern = re.compile(
               r"(?m)^([ \t]*image:[ \t]*)"
